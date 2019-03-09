@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadanie 3</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link rel="stylesheet" href="canvas_style.css">
+</head>
+<body onload="actionWrapper()">
+	<canvas id="myCanvas">
+		Twoja przeglądarka nie wspiera canvas! Zainstaluj przeglądarkę Google Chrome lub Firefox by obejrzeć zawartość!
+	</canvas>
+	<div id="form">
+		<h1>Assignment 3 - Drawing lines with Bresenham's<br>algorithm</h1>
+		<h3>Enter the coordinates:</h3>
+		x1: <input id="x1" value="1"> y1: <input id="y1" value="1"> <button onclick="actionWrapper()">Draw</button><br><br>
+		x2: <input id="x2" value="3"> y2: <input id="y2" value="3"> <br><br>
+		x3: <input id="x3" value="5"> y2: <input id="y3" value="5"> <br><br>
+		x4: <input id="x4" value="7"> y2: <input id="y4" value="7"> <br><br>
+		x5: <input id="x5" value="9"> y2: <input id="y5" value="9"> <br><br>
+		x6: <input id="x6" value="-5"> y2: <input id="y6" value="1"> <br><br>
+		x7: <input id="x7" value="3"> y2: <input id="y7" value="-5"> <br><br>
+		x8: <input id="x8" value="2"> y2: <input id="y8" value="9"> <br><br>
+		Canvas width: <input id="canvas-width" name="canvas-width" value="720"><br><br>
+		Canvas height: <input id="canvas-height" name="canvas-height" value="720"><br><br>
+	</div>
+	<div style="clear: both"></div>
+	<script type="text/javascript" src="assignment3.js"></script>
+</body>
+</html>

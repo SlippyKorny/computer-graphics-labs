@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadanie 3</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link rel="stylesheet" href="canvas_style.css">
+	<script type="text/javascript" src="assignment_3.js"></script>
+</head>
+<body>
+	<canvas id="myCanvas" style="height: 285vh">
+		Twoja przeglądarka nie wspiera canvas! Zainstaluj przeglądarkę Google Chrome lub Firefox by obejrzeć zawartość!
+	</canvas>
+	<div id="form">
+		<h1>Assignment 3 - Bar graph for four <br>companies</h1>
+		<h3>Company 1</h3>
+		1st Quarter income: <input id="c1-input-1" name="c1-input-1" value="100"><br><br>
+		1st Quarter profit: <input id="c1-input-1-profit" name="c1-input-1-profit" value="100"><br><br>
+		2nd Quarter Income: <input id="c1-input-2" name="c1-input-2" value="300"><br><br>
+		2nd Quarter profit: <input id="c1-input-2-profit" name="c1-input-2-profit" value="290"><br><br>
+		3rd Quarter Income: <input id="c1-input-3" name="c1-input-3" value="250"><br><br>
+		3rd Quarter profit: <input id="c1-input-3-profit" name="c1-input-3-profit" value="200"><br><br>
+		4th Quarter Income: <input id="c1-input-4" name="c1-input-4" value="100"><br><br>
+		4th Quarter profit: <input id="c1-input-4-profit" name="c1-input-4-profit" value="120"><br><br>
+		Name of the company: <input id="chart-name-1" name="chart-name" value='Amazon' style="width: 50%;"><br><br><br>
+		<h3>Company 2</h3>
+		1st Quarter income: <input id="c2-input-1" name="c2-input-1" value="120"><br><br>
+		1st Quarter profit: <input id="c2-input-1-profit" name="c2-input-1-profit" value="100"><br><br>
+		2nd Quarter Income: <input id="c2-input-2" name="c2-input-2" value="200"><br><br>
+		2nd Quarter profit: <input id="c2-input-2-profit" name="c2-input-2-profit" value="250"><br><br>
+		3rd Quarter Income: <input id="c2-input-3" name="c2-input-3" value="290"><br><br>
+		3rd Quarter profit: <input id="c2-input-3-profit" name="c2-input-3-profit" value="300"><br><br>
+		4th Quarter Income: <input id="c2-input-4" name="c2-input-4" value="100"><br><br>
+		4th Quarter profit: <input id="c2-input-4-profit" name="c2-input-4-profit" value="100"><br><br><br>
+		Name of the company: <input id="chart-name-2" name="chart-name" value='Ebay' style="width: 50%;"><br><br><br>
+		<h3>Company 3</h3>
+		1st Quarter income: <input id="c3-input-1" name="c3-input-1" value="100"><br><br>
+		1st Quarter profit: <input id="c3-input-1-profit" name="c3-input-1-profit" value="150"><br><br>
+		2nd Quarter Income: <input id="c3-input-2" name="c3-input-2" value="200"><br><br>
+		2nd Quarter profit: <input id="c3-input-2-profit" name="c3-input-2-profit" value="250"><br><br>
+		3rd Quarter Income: <input id="c3-input-3" name="c3-input-3" value="300"><br><br>
+		3rd Quarter profit: <input id="c3-input-3-profit" name="c3-input-3-profit" value="250"><br><br>
+		4th Quarter Income: <input id="c3-input-4" name="c3-input-4" value="200"><br><br>
+		4th Quarter profit: <input id="c3-input-4-profit" name="c3-input-4-profit" value="150"><br><br><br>
+		Name of the company: <input id="chart-name-3" name="chart-name" value='Aliexpress' style="width: 50%;"><br><br><br>
+		<h3>Company 4</h3>
+		1st Quarter income: <input id="c4-input-1" name="c4-input-1" value="300"><br><br>
+		1st Quarter profit: <input id="c4-input-1-profit" name="c4-input-1-profit" value="300"><br><br>
+		2nd Quarter Income: <input id="c4-input-2" name="c4-input-2" value="300"><br><br>
+		2nd Quarter profit: <input id="c4-input-2-profit" name="c4-input-2-profit" value="300"><br><br>
+		3rd Quarter Income: <input id="c4-input-3" name="c4-input-3" value="300"><br><br>
+		3rd Quarter profit: <input id="c4-input-3-profit" name="c4-input-3-profit" value="300"><br><br>
+		4th Quarter Income: <input id="c4-input-4" name="c4-input-4" value="300"><br><br>
+		4th Quarter profit: <input id="c4-input-4-profit" name="c4-input-4-profit" value="300"><br><br><br>
+		Name of the company: <input id="chart-name-4" name="chart-name" value='Gumtree' style="width: 50%;"><br><br><br><br>
+		<center><button style="width: 50%; height: 100px;" onclick="graphInitWrapper()">SUBMIT</button></center>
+	</div>
+	<div style="clear: both"></div>
+</body>
+</html>

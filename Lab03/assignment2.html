@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Zadanie 2</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link rel="stylesheet" href="canvas_style.css">
+</head>
+<body onload="actionWrapper()">
+	<canvas id="myCanvas">
+		Twoja przeglądarka nie wspiera canvas! Zainstaluj przeglądarkę Google Chrome lub Firefox by obejrzeć zawartość!
+	</canvas>
+	<div id="form">
+		<h1>Assignment 2 - Drawing a f(x) = a * x^2<br>parabola with von Akenem algorithm</h1>
+		<h3>Enter the equation:</h3>
+		x^2: <input id="a-val" name="a-val" value="1"> <button onclick="actionWrapper()">Draw</button><br><br>
+		Canvas width: <input id="canvas-width" name="canvas-width" value="720"><br><br>
+		Canvas height: <input id="canvas-height" name="canvas-height" value="720"><br><br>
+	</div>
+	<div style="clear: both"></div>
+	<script type="text/javascript" src="assignment2.js"></script>
+</body>
+</html>

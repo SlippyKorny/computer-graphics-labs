@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <title>Canvas</title>
+		<script type="text/javascript">
+			function draw() {
+				var canvas = document.getElementById('myCanvas');
+				var context = canvas.getContext('2d'); 
+
+				context.fillStyle = 'pink';
+				context.fillRect(0, 0, 100, 100);
+
+
+			}
+		</script>
+    </head>
+    <body onload="draw();">
+		<canvas id="myCanvas" width="1300" height="620">
+			Twoja przeglądarka nie wspiera canvas! Zainstaluj przeglądarkę Google Chrome lub Firefox by obejrzeć zawartość!
+		</canvas>
+    </body>
+</html>
