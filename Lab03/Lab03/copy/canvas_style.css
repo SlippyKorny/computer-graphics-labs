@@ -1,0 +1,20 @@
+body {
+	font-family: 'Lato', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #222f3e;
+	color: #c8d6e5;
+}
+
+#myCanvas {
+	padding: 0px 0px 0px 0px;
+	width: 900px;
+	height: 720px;
+	background-color: #dff9fb;
+	float: left;
+}
+
+#form {
+	float: left;
+	margin-left: 2.5%;
+}

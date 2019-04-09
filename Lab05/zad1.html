@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Canvas</title>
+    <script type="text/javascript">
+     var canvas;
+     var context;
+
+     let clear = function() {
+         var tmp = context.fillStyle;
+         context.fillStyle = "white";
+		     context.fillRect(0, 0, canvas.width, canvas.height);
+         context.fillStyle = tmp;
+     }
+
+     let draw = function(form) {
+         canvas = document.getElementById('image');
+         context = canvas.getContext('2d');
+
+	       clear();
+
+         var wybor = form.wybor.value; 
+         var points = [];
+
+         if(wybor == 0) { 
+
+             //  I zestaw: n=10; {(0,10), (6,8), (10,3), (10,-3), (6,-8), (0,-10), (-6,-8), (-10,-3), (-10,3), (-6,8)}
+             var offset = 20;
+             var srodek = canvas.width / 2;
+		         points.push({x: srodek, y: (srodek - (10 * offset))});
+             points.push({x: (srodek + (6 * offset)), y: (srodek - (8 * offset))});
+             points.push({x: (srodek + (10 * offset)), y: (srodek - (3 * offset))});
+             points.push({x: (srodek + (10 * offset)), y: (srodek + (3 * offset))});
+             points.push({x: (srodek + (6 * offset)), y: (srodek + (8 * offset))});
+             points.push({x: srodek, y: (srodek + (10 * offset))});
+             points.push({x: (srodek - (6 * offset)), y: (srodek + (8 * offset))});
+             points.push({x: (srodek - (10 * offset)), y: (srodek + (3 * offset))});
+             points.push({x: (srodek - (10 * offset)), y: (srodek - (3 * offset))});
+             points.push({x: (srodek - (6 * offset)), y: (srodek - (8 * offset))});
+         } else {
+             points.push({x: 222, y: 77});
+             points.push({x: 320, y: 162});
+             points.push({x: 380, y: 370});
+             points.push({x: 140, y: 370});
+             points.push({x: 120, y: 162});
+             points.push({x: 222, y: 77});
+         }
+         a = [];
+         b = [];
+         c = [];
+         a_ = [];
+         b_ = [];
+         c_ = [];
+
+         for(var i = 1; i < points.length; i++) {
+             j = i - 1;
+             a_ = points[j];
+             b_ = points[i];
+             c_ = points[0];
+
+             a.push(a_);
+             b.push(b_);
+             c.push(c_);
+             console.log("petla pierwsza");
+         }
+         var colors = ["#0984e3", "#0984e3", "#0984e3", "#0984e3", "#0984e3"]
+
+         for(var i = 1; i < a.length; i++) {
+             a_ = a[i];
+             b_ = b[i];
+             c_ = c[i];
+
+             context.fillStyle = colors[i % colors.length];
+             rysujTrojkat(a_, b_, c_);
+
+             context.strokeStyle = "black";
+             context.beginPath();
+             context.moveTo(a_.x, a_.y);
+             context.lineTo(b_.x, b_.y);
+             context.lineTo(c_.x, c_.y);
+             context.closePath();
+             context.stroke();
+             context.fill();
+         }
+     }
+
+     let rysujTrojkat = function(pv1, pv2, pv3) {
+         var v4x;
+         var points = [];
+         points.push(pv1);
+         points.push(pv2);
+         points.push(pv3);
+
+         do {
+             var stop = true;
+             for(var j = 1; j < points.length; j++) {
+                 if(points[j-1].y < points[j].y) {
+                     var tmp = points[j-1];
+                     points[j-1] = points[j];
+                     points[j] = tmp;
+                     stop = false;
+                 }
+             }
+         } while(!stop);
+
+         var v1 = [];
+         var v2 = [];
+         var v3 = [];
+         var v4;
+
+         var v1 = points[0];
+         var v2 = points[1];
+         var v3 = points[2];
+
+         if(v2.y == v3.y)
+             wypelnijDol(v1, v2, v3);
+	       else if(v1.y == v2. y)
+             wypelnijGore(v1, v2, v3);
+	       else {
+             v4x = parseInt(v1.x +((1.0)*(v2.y-v1.y) / (1.0)*(v3.y - v1.y)) * (v3.x - v1.x));
+             v4 = {x:v4x, y:v2.y};
+             wypelnijDol(v1, v2, v3);
+             wypelnijGore(v2, v4, v3);
+         }
+     }
+
+     let wypelnijDol = function(v1, v2, v3) {
+         var nachylenie1 = (v2.x - v1.x * 1.0) / (v2.y - v1.y);
+         var nachylenie2 = (v3.x - v1.x * 1.0) / (v3.y - v1.y);
+
+         var x1 = v1.x;
+         var x2 = v1.x;
+         var y;
+         for (y = v1.y; y <= v2.y; y++) {
+             context.beginPatch
+             context.moveTo(x1, y);
+             context.lineTo(x2, y);
+             context.stroke();
+             x1 = x1 + nachylenie1;
+             x2 = x2 + nachylenie2;
+         }
+     }
+
+     let wypelnijGore = function(v1, v2, v3) {
+         var nachylenie1 = (v3.x - v1.x * 1.0) / (v3.y - v1.y);
+         var nachylenie2 = (v3.x - v2.x * 1.0) / (v3.y - v2.y);
+         var y;
+         var x1 = v3.x;
+         var x2 = v3.x;
+
+         for(y = v3.y; y >= v1.y; y--) {
+             context.beginPatch;
+             context.moveTo(x1, y);
+             context.lineTo(x2, y);
+             context.stroke();
+             x1 = x1 - nachylenie1;
+             x2 = x2 - nachylenie2;
+         }
+     }
+    </script>
+</head>
+<body>
+<form>
+ Zestaw:
+<select name='wybor'>
+        <option value='0'>I</option>
+        <option value='1'>II</option>
+</select>
+    <input type="button" name="przycisk" value="Rysuj" onclick="for(var i=0;i<3;++i)draw(this.form);"><BR>
+    <canvas id="image" width="500" height="500" style="border: 1px solid black">
+    </canvas>
+</form>
+</body>
+</html>

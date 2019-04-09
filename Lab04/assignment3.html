@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Assignment 3 - Kornel Domeradzki</title>
+    <script type="text/javascript">
+    	var n;
+ 
+function draw(form) {
+	var canvas = document.getElementById('image');
+	var context = canvas.getContext('2d');
+	var x, y;
+	var dx = 250;
+	var dy = 250;
+	var r = 50;
+	
+	context.fillStyle = "white";
+	context.fillRect(0,0,600,600);
+	context.fillStyle = "black";
+	
+	n = parseInt(form.n.value);
+	
+	var cb = [0,0,0,255];
+	var cn = [66, 134, 244, 250];
+	
+	x = (Math.sin(2 * Math.PI )* r) + dx - 1;
+	y = (Math.cos(2 * Math.PI) * r) + dy - 51;
+	var i;
+	context.beginPath();
+	
+	context.moveTo(x,y);
+	context.lineTo(x + 100, y);
+	context.lineTo(x + 80, y + 100);
+	context.lineTo(x - 20, y + 100);
+
+	context.closePath();
+	context.stroke();
+	
+	fill4(dx,dy,cb,cn);
+}
+            
+function fill4(dx, dy, cb, cn){
+	var canvas = document.getElementById('image');
+	var context = canvas.getContext('2d');
+	
+	var createData = context.createImageData(1, 1);
+	var px = createData.data;
+	var color = context.getImageData(dx, dy, 1, 1).data;
+							   						
+	px[0] = cn[0];
+	px[1] = cn[1];
+	px[2] = cn[2];
+	px[3] = cn[3];
+					
+	if(equalColor(color, [255,255,255]))
+	{
+		context.putImageData(createData, dx, dy);
+		setTimeout(function (){
+			fill4(dx,dy+1,cb,cn); 
+			fill4(dx-1,dy,cb,cn); 
+			fill4(dx+1,dy,cb,cn);
+		}, 0);
+	}
+}
+
+function equalColor(c1, c2){
+	return c1[0]===c2[0] && c1[1]===c2[1] && c1[2]===c2[2] ;
+}
+    </script>
+</head>
+<body>
+<form>
+Ilość kątów = <input type="number" name="n" value="4"><BR>
+ 
+<input type="button" name="przycisk" value="Rysuj" onclick="draw(this.form);"><BR>
+ 
+    <canvas id="image" width="600" height="600">
+</canvas>
+</form>
+</body>
+</html>

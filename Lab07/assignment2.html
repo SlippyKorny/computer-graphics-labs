@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 2</title>
+	<style type="text/css">
+		#myCanvas {
+			width: 400px;
+			height: 400px;
+			border: 1px black solid;
+		}
+	</style>
+	<script type="text/javascript" src="assignment1.js"></script>
+</head>
+<body onload="drawGrid()">
+	<h1>Assignment 2</h1>
+	<div id="form">
+		P(x, y) = (<input id="p-coord-x" value="0">, <input id="p-coord-y" value="0">)[Red]<br>
+		S(x, y) = (<input id="s-coord-x" value="3">, <input id="s-coord-y" value="3">)[Blue]<br>
+		<!-- rotation = <input id="rotation" value="30.0" disabled> -->
+		rotation = <input id="rotation" value="30.0">
+		<button onclick="drawPoint(
+			parseFloat(document.getElementById('p-coord-x').value),
+			parseFloat(document.getElementById('p-coord-y').value)
+		); drawPoint(
+			parseFloat(document.getElementById('s-coord-x').value),
+			parseFloat(document.getElementById('s-coord-y').value)
+		)">
+			Draw Initial
+		</button>
+		<button onclick="drawRotatedPoints(
+			parseFloat(document.getElementById('p-coord-x').value),
+			parseFloat(document.getElementById('p-coord-y').value),
+			parseFloat(document.getElementById('s-coord-x').value),
+			parseFloat(document.getElementById('s-coord-y').value),
+			parseFloat(document.getElementById('rotation').value),
+		)">
+			Draw Rotated
+		</button>
+	</div>
+	<canvas id="myCanvas">
+	</canvas>
+</body>
+</html>

@@ -33,42 +33,13 @@ const precision = 0.01;
 
 const rectSizes = 2.0;
 
-let drawPoint = function(x, y) {
-	canvasManager.context.fillStyle = '#ff9f43';
-	canvasManager.context.fillRect(x, y, 1.0, 1.0);
+let quadraticFunction = function(x) {
+	// a * x^2 + b * x + c
+	// c should be negative
+	return (quadraticEquationData.x2 * Math.pow(x, 2)) + (quadraticEquationData.x * x) - quadraticEquationData.c;
 }
 
-let bresenDraw = function(x0, y0, x1, y1) {
-	if (x0 == x1 && y0 == y1) {
-		drawPoint(x0, y0);
-		return;
-	}
 
-	let dx = x1 - x0;
-	let sx = (dx < 0) ? -1 : 1;
-	let dy = y1 - y0;
-	let sy = (dy < 0) ? -1 : 1;
-
-	if (Math.abs(dy) < Math.abs(dx)) {
-		let m = dy / dx; 
-		let b = y0 - m * x0;
-
-		while (x0 != x1) {
-			drawPoint(x0, parseInt(Math.round(m * x0 + b)));
-			x0 += sx;
-		}
-	} else {
-		let m = dx / dy;
-		let b = x0 - m * y0;
-
-		while (y0 != y1) {
-			drawPoint(parseInt(Math.round(m * y0 + b)), y0);
-			y0 += sy;	
-		}
-	}
-
-	drawPoint(x1, y1);
-}
 
 function setWidthAndHeightData() {
 	let width = document.getElementById('canvas-width').value;
@@ -81,6 +52,17 @@ function setCanvasWidthAndHeight() {
 	setWidthAndHeightData();
 	document.getElementById('myCanvas').style.width = canvasSize.width + "px";
 	document.getElementById('myCanvas').style.height = canvasSize.height + "px";
+}
+
+function setQuadraticEquationData() {
+	let x2 = parseFloat(document.getElementById('a-val').value);
+	let x = 0.0;
+	let c = 0.0;
+	quadraticEquationData.x2 = x2;
+	quadraticEquationData.x = x;
+	quadraticEquationData.c = c;
+	console.log("[Printing out quadraticEquationData]");
+	console.log(quadraticEquationData);
 }
 
 function setUpGridData() {
@@ -124,6 +106,12 @@ function drawGrid() {
 	canvasManager.context.fillText('x', gridData.xAxisLen - 18.0, gridData.xAxisOrigin.yOrigin - 5.0);
 }
 
+function drawParabola() {
+	let p = parseFloat(document.getElementById('p').value);
+	let q = parseFloat(document.getElementById('q').value);
+	draw(p, q, canvasManager.context, canvasManager.canvas);
+}
+
 function canvasFix(canvas) {
   // Get the device pixel ratio, falling back to 1.
   var dpr = window.devicePixelRatio || 1;
@@ -140,76 +128,37 @@ function canvasFix(canvas) {
   return ctx;
 }
 
-function getLineCoords() {
-	var array = [];
-
-	array.push([canvasSize.width / 2.0, canvasSize.height/2.0]);
-	var index = document.getElementById("god").value;
-	console.log(index);
-	switch (parseInt(index)) {
-		case 1:
-			array.push([canvasSize.width, 0.0]);
-			break;
-		case 2:
-			array.push([canvasSize.width/2.0, 0.0]);
-			break;
-		case 3:
-			array.push([0.0, 0.0]);
-			break;
-		case 4:
-			array.push([0.0, canvasSize.height / 2.0]); // x axis
-			break;
-		case 5:
-			array.push([0.0, canvasSize.height]);
-			break;
-		case 6:
-			array.push([canvasSize.width / 2.0, canvasSize.height]);
-			break;
-		case 7:
-			array.push([canvasSize.width, canvasSize.height]);
-			break;
-		case 8:
-			array.push([canvasSize.width, canvasSize.height/2.0]);
-			break;
-	}
-
-	console.log("[Got line coords]");
-	return array;
+function setCanvas()
+{
+	var canvas = document.getElementById('image');
+	canvas.width = 400;
+	canvas.height = 400;
 }
 
-function getCoordsForFuncVals(x, y) {
-	var newY;
-	if (y > 0.0) {
-		newY = (canvasSize.height * (xBoundary - y)) / (2.0 * xBoundary);
-	} else if (y < 0.0) {
-		newY = (canvasSize.height * (xBoundary + Math.abs(y))) / (2.0 * xBoundary);
-	} else {
-		newY = canvasSize.height / 2.0;
+function draw(p, q, context, canvas) {
+	// TODO: 
+	var a = p/q;
+	
+	var OX = canvas.width / 2;
+	var OY = canvas.height / 2;
+	
+	var xp = 10;
+	var xk = canvas.width - 10;
+	
+	var x = 0 - OX;
+	var y = -(a * Math.pow(x, 2)) + OY;
+
+	context.beginPath();
+	context.moveTo(0, y);
+	for(var i = xp; i < xk; i++)
+	{
+		x = i - OX;
+		y = -(a * Math.pow(x, 2)) + OY;
+		
+		context.lineTo(i - canvas.width / 4.0, y / 2.0);
 	}
-	var newX = ((xBoundary + x) * canvasSize.width) / (2.0 * xBoundary);
-	if (x == 0.0) {
-		newX = canvasSize.width / 2.0;
-	}
-	return [newX, newY];
-}
-
-function drawLines() {
-	let lineCoordsArray = getLineCoords();
-
-	console.log(lineCoordsArray);
-
-	for (var i = 0; i < 2; i++) {
-		console.log("Loop nr. " + i);
-		let xy = lineCoordsArray[i];
-		let nxy = lineCoordsArray[i+1];
-		let x = xy[0];
-		let y = xy[1];
-		let nx = nxy[0];
-		let ny = nxy[1];
-
-		console.log("[Bresendraw(" + x + ", " + y + ", " + nx + ", " + ny + ")");
-		bresenDraw(x, y, nx, ny);
-	}
+	context.strokeStyle = 'red';
+	context.stroke();
 }
 
 function actionWrapper() {
@@ -217,7 +166,8 @@ function actionWrapper() {
 	canvasFix(canvasManager.canvas);
 	setUpGridData();
 	drawGrid();
-	drawLines();
+	setQuadraticEquationData();
+	drawParabola();
 }
 
 

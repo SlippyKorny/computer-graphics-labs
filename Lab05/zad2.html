@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Canvas</title>
+    <script type="text/javascript">
+     var pkt = [];
+     var context;
+     let draw = function(form) {
+         var canvas = document.getElementById('image');
+         context = canvas.getContext('2d');
+         pkt.push({x: 170, y: 120});
+         pkt.push({x: 340, y: 180});
+         pkt.push({x: 340, y: 230});
+         pkt.push({x: 400, y: 200});
+         pkt.push({x: 370, y: 260});
+         pkt.push({x: 400, y: 320});
+         pkt.push({x: 340, y: 270});
+         pkt.push({x: 340, y: 340});
+         pkt.push({x: 300, y: 360});
+         pkt.push({x: 80, y: 270});
+         pkt.push({x: 170, y: 180});
+
+         for(var i = 0, j = pkt.length - 1; i < pkt.length; j = i++) {
+             context.beginPath();
+             context.moveTo(pkt[j].x, pkt[j].y);
+             context.lineTo(pkt[i].x, pkt[i].y);
+             context.stroke();
+         }
+
+         document.getElementById('wynik').innerHTML = "Kliknij";
+     }
+
+
+     let klikMyszy = function(event) {
+         var x = event.clientX;
+         var y = event.clientY;
+         var wynik = false;
+
+         for (var i = 0, j = pkt.length - 1; i < pkt.length; j = i++) {
+             var tmp = (pkt[j].x - pkt[i].x) * (y - pkt[i].y) / (pkt[j].y - pkt[i].y) + pkt[i].x;
+
+             if (((pkt[i].y > y) !== (pkt[j].y > y)) && x < tmp)
+                 wynik = true;
+         }
+         document.getElementById('wynik').innerHTML = wynik ? "Kliknieto w srodku" : "Kliknieto na zewnatrz";
+     }
+
+    </script>
+</head>
+<body>
+<form>
+	<div id='wynik'>Narysuj i kliknij</div><br>
+     <input type="button" name="przycisk" value="Narysuj"  onclick="draw(this.form);"><BR>
+    <canvas id="image" width="500" height="500" onmousedown="klikMyszy(event)" style="border: 1px solid black">
+    </canvas>
+</form>
+</body>
+</html>

@@ -107,6 +107,9 @@ function drawGrid() {
 }
 
 function drawParabola() {
+	let p = parseFloat(document.getElementById('p').value);
+	let q = parseFloat(document.getElementById('q').value);
+	draw(p, q, canvasManager.context, canvasManager.canvas);
 }
 
 function canvasFix(canvas) {
@@ -123,6 +126,38 @@ function canvasFix(canvas) {
   // don't have to worry about the difference.
   ctx.scale(dpr, dpr);
   return ctx;
+}
+
+function setCanvas()
+{
+	var canvas = document.getElementById('image');
+	canvas.width = 400;
+	canvas.height = 400;
+}
+
+function draw(p, q, context, canvas) {
+	var a = p/q;
+	
+	var OX = canvas.width / 2;
+	var OY = canvas.height / 2;
+	
+	var xp = 10;
+	var xk = canvas.width - 10;
+	
+	var x = 0 - OX;
+	var y = -(a * Math.pow(x, 2)) + OY;
+
+	context.beginPath();
+	context.moveTo(0, y);
+	for(var i = xp; i < xk; i++)
+	{
+		x = i - OX;
+		y = -(a * Math.pow(x, 2)) + OY;
+		
+		context.lineTo(i - canvas.width / 4.0, y / 2.0);
+	}
+	context.strokeStyle = 'red';
+	context.stroke();
 }
 
 function actionWrapper() {

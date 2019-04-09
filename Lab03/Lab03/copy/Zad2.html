@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Canvas</title>
+    <script type="text/javascript">
+	function setCanvas()
+	{
+		var canvas = document.getElementById('image');
+		canvas.width = 400;
+		canvas.height = 400;
+	}
+	
+        function draw(form) 
+	{
+		var canvas = document.getElementById('image');
+		var context = canvas.getContext('2d');
+			
+		var p = parseInt(form.l1.value);
+		var q = parseInt(form.l2.value);
+
+		var a = p/q;
+	
+		var OX = canvas.width / 2;
+		var OY = canvas.height / 2;
+	
+		context.fillStyle = "white";
+		context.fillRect(0,0, canvas.width, canvas.height);
+	
+		context.beginPath();
+		context.moveTo(OX, 0);
+		context.lineTo(OX, canvas.height);
+		context.strokeStyle = "black";
+		context.stroke();
+	
+		context.beginPath();
+		context.moveTo(0, OY);
+		context.lineTo(canvas.width, OY);
+		context.strokeStyle = "black";
+		context.stroke();
+	
+		var xp = 10;
+		var xk = canvas.width - 10;
+	
+		var x = 0 - OX;
+		var y = -(a * Math.pow(x, 2)) + OY;
+
+		context.beginPath();
+		context.moveTo(0,y);
+		for(var i = xp; i < xk; ++i)
+		{
+			x = i - OX;
+			y = -(a * Math.pow(x, 2)) + OY;
+		
+			context.lineTo(i,y);
+		}
+		context.strokeStyle = 'red';
+		context.stroke();
+        }
+    </script>
+</head>
+<body onload="setCanvas();">
+<form>
+p= <input type="number" name="l1" value="0"><br>
+q= <input type="number" name="l2" value="0"><br>
+
+<input type="button" name="a" value="Rysuj" onclick="draw(this.form);">
+</form>
+    <canvas id="image" width="1200" height="650">
+    Twoja przeglądarka nie wspiera Canvas! Zainstaluj Internet Explorer 9.x
+</canvas>
+</body>
+</html>

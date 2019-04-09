@@ -22,6 +22,8 @@ var gridData = {
 	yAxisBoldness : 0.0
 }
 
+var points = [];
+
 const canvasManager = {
 	canvas : document.getElementById('myCanvas'),
 	context : document.getElementById('myCanvas').getContext('2d')
@@ -50,7 +52,7 @@ let bresenDraw = function(x0, y0, x1, y1) {
 	let sy = (dy < 0) ? -1 : 1;
 
 	if (Math.abs(dy) < Math.abs(dx)) {
-		let m = dy / dx; 
+		let m = dy / dx;
 		let b = y0 - m * x0;
 
 		while (x0 != x1) {
@@ -143,38 +145,19 @@ function canvasFix(canvas) {
 function getLineCoords() {
 	var array = [];
 
-	array.push([canvasSize.width / 2.0, canvasSize.height/2.0]);
-	var index = document.getElementById("god").value;
-	console.log(index);
-	switch (parseInt(index)) {
-		case 1:
-			array.push([canvasSize.width, 0.0]);
-			break;
-		case 2:
-			array.push([canvasSize.width/2.0, 0.0]);
-			break;
-		case 3:
-			array.push([0.0, 0.0]);
-			break;
-		case 4:
-			array.push([0.0, canvasSize.height / 2.0]); // x axis
-			break;
-		case 5:
-			array.push([0.0, canvasSize.height]);
-			break;
-		case 6:
-			array.push([canvasSize.width / 2.0, canvasSize.height]);
-			break;
-		case 7:
-			array.push([canvasSize.width, canvasSize.height]);
-			break;
-		case 8:
-			array.push([canvasSize.width, canvasSize.height/2.0]);
-			break;
+	for (var i = 1; i <= 8; i++) {
+		let x = parseFloat(document.getElementById('x' + i).value);
+		let y = parseFloat(document.getElementById('y' + i).value);
+		array.push([x, y]);
 	}
 
 	console.log("[Got line coords]");
 	return array;
+}
+
+function runOnClick(event) {
+  points.push(getCoordsForFuncVals([event.clientX, event.clientY]));
+  actionWrapper();
 }
 
 function getCoordsForFuncVals(x, y) {
@@ -184,24 +167,16 @@ function getCoordsForFuncVals(x, y) {
 	} else if (y < 0.0) {
 		newY = (canvasSize.height * (xBoundary + Math.abs(y))) / (2.0 * xBoundary);
 	} else {
-		newY = canvasSize.height / 2.0;
+		newY = 0.0;
 	}
 	var newX = ((xBoundary + x) * canvasSize.width) / (2.0 * xBoundary);
-	if (x == 0.0) {
-		newX = canvasSize.width / 2.0;
-	}
 	return [newX, newY];
 }
 
 function drawLines() {
-	let lineCoordsArray = getLineCoords();
-
-	console.log(lineCoordsArray);
-
-	for (var i = 0; i < 2; i++) {
-		console.log("Loop nr. " + i);
-		let xy = lineCoordsArray[i];
-		let nxy = lineCoordsArray[i+1];
+	for (var i = 0; i < points.length; i++) {
+		let xy = points[i];
+		let nxy = points[i];
 		let x = xy[0];
 		let y = xy[1];
 		let nx = nxy[0];
@@ -213,6 +188,11 @@ function drawLines() {
 }
 
 function actionWrapper() {
+	points.push([0.0, 0.0]);
+	actionClick();
+}
+
+function actionClick() {
 	setCanvasWidthAndHeight();
 	canvasFix(canvasManager.canvas);
 	setUpGridData();

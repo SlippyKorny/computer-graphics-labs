@@ -2,22 +2,20 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Zadanie 3</title>
+	<title>Dodatkowe</title>
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link rel="stylesheet" href="canvas_style.css">
 </head>
 <body onload="actionWrapper()">
-	<canvas id="myCanvas">
+	<canvas id="myCanvas" onclick="runOnClick(event)">
 		Twoja przeglądarka nie wspiera canvas! Zainstaluj przeglądarkę Google Chrome lub Firefox by obejrzeć zawartość!
 	</canvas>
 	<div id="form">
-		<h1>Assignment 3 - Drawing lines with Bresenham's<br>algorithm</h1>
-		<h3>Enter the coordinates:</h3>
-		Canvas width: <input id="canvas-width" name="canvas-width" value="720"> <button onclick="actionWrapper()">Draw</button><br><br>
+		<h1>Bonus Assignment - Draw 'n' click</h1>
+		Canvas width: <input id="canvas-width" name="canvas-width" value="720"><br><br>
 		Canvas height: <input id="canvas-height" name="canvas-height" value="720"><br><br>
-  		Part of the graph: <input value="1" id="god">
 	</div>
 	<div style="clear: both"></div>
-	<script type="text/javascript" src="assignment3.js"></script>
+	<script type="text/javascript" src="dodatkowe.js"></script>
 </body>
 </html>

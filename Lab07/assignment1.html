@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 1</title>
+	<style type="text/css">
+		#myCanvas {
+			width: 400px;
+			height: 400px;
+			border: 1px black solid;
+		}
+	</style>
+	<script type="text/javascript" src="assignment1.js"></script>
+</head>
+<body onload="drawGrid()">
+	<h1>Assignment 1</h1>
+	<div id="form">
+		x: <input id="coord-x" value="3"> transX: <input id="trans-x" value="2"><br>
+		y: <input id="coord-y" value="3"> transY: <input id="trans-y" value="3"><br>
+		<button onclick="drawPoint(
+			parseFloat(document.getElementById('coord-x').value),
+			parseFloat(document.getElementById('coord-y').value),
+			'black'
+		)">
+			Calculate and Draw
+		</button>
+		<button onclick="translatePoint(
+			parseFloat(document.getElementById('coord-x').value),
+			parseFloat(document.getElementById('coord-y').value),
+			parseFloat(document.getElementById('trans-x').value),
+		 	parseFloat(document.getElementById('trans-y').value), 
+		 	'green')">
+				Translate T[transX, transY]
+		</button>
+		<button onclick="translatePoint(
+			parseFloat(document.getElementById('coord-x').value),
+			parseFloat(document.getElementById('coord-y').value),
+		 	parseFloat(document.getElementById('trans-y').value), 
+			parseFloat(document.getElementById('trans-x').value),
+		 		'blue')">
+			Translate T[transY, transX]
+		</button>
+	</div>
+	<canvas id="myCanvas">
+	</canvas>
+</body>
+</html>
