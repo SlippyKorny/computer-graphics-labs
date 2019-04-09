@@ -1,5 +1,3 @@
-var scale = 20.0;
-
 // const GRAPH_HEIGHT = 400.0;
 // const GRAPH_WIDTH = 400.0;
 // const GRID_THICKNESS = 1.5;
@@ -86,9 +84,23 @@ let rotateAllPts = function(cx, cy, angle) {
 	}	
 }
 
+let cartesianPointToRealPointNew = function(x, y, scaleX, scaleY) {
+	var realX;
+	var realY;
+	realX = (GRAPH_WIDTH / 2.0) + x * scaleX;
+	if ((x > 0 && y > 0) || (x < 0 && y > 0)) {
+		realY = (GRAPH_HEIGHT / 2.0) - y * scaleY;
+	} else if (x < 0 && y < 0) {
+		realY = (GRAPH_HEIGHT / 2.0) + Math.abs(y * scaleY);
+	} else if (x == 0 && y > 0) {
+		realY = (GRAPH_HEIGHT / 2.0) - y * scaleY;
+	} else {
+		realY = (GRAPH_HEIGHT / 2.0) + Math.abs(y * scaleY);
+	}
+	return {x: realX, y: realY};
+}
+
 let drawWithSpecifiedArgs = function() {
-	if (document.getElementById('scale-checkbox').checked)
-		scale = parseFloat(document.getElementById('scale').value);
 	if (document.getElementById('trans-checkbox').checked)
 		translateAllPts();
 	if (document.getElementById('specified-point-rotation-angle-checkbox').checked) {
@@ -108,9 +120,14 @@ let drawConnectedPoints = function() {
 	let ctx = document.getElementById('myCanvas').getContext('2d');
 	ctx.moveTo(outerPointsArray[0].x, outerPointsArray[1].y);
 	ctx.strokeStyle = "red";
+	let scaleX = parseFloat(document.getElementById('scale-x').value);
+	let scaleY = parseFloat(document.getElementById('scale-y').value);
+
+	console.log(scaleX + ", " + scaleY);
+
 	for (var i = 1; i < outerPointsArray.length; i++) {
-		let pt = cartesianPointToRealPoint(outerPointsArray[i-1].x, outerPointsArray[i-1].y, scale);
-		let nxtPt = cartesianPointToRealPoint(outerPointsArray[i].x, outerPointsArray[i].y, scale);
+		let pt = cartesianPointToRealPointNew(outerPointsArray[i-1].x, outerPointsArray[i-1].y, scaleX, scaleY);
+		let nxtPt = cartesianPointToRealPointNew(outerPointsArray[i].x, outerPointsArray[i].y, scaleX, scaleY);
 		ctx.moveTo(pt.x, pt.y);
 		ctx.lineTo(nxtPt.x, nxtPt.y);
 		ctx.stroke();
@@ -118,8 +135,8 @@ let drawConnectedPoints = function() {
 
 	ctx.moveTo(windowPointsArray[0].x, windowPointsArray[0].y);
 	for(var i = 1; i < windowPointsArray.length; i++) {
-		let pt = cartesianPointToRealPoint(windowPointsArray[i-1].x, windowPointsArray[i-1].y, scale);
-		let nxtPt = cartesianPointToRealPoint(windowPointsArray[i].x, windowPointsArray[i].y, scale);
+		let pt = cartesianPointToRealPointNew(windowPointsArray[i-1].x, windowPointsArray[i-1].y, scaleX, scaleY);
+		let nxtPt = cartesianPointToRealPointNew(windowPointsArray[i].x, windowPointsArray[i].y, scaleX, scaleY);
 		ctx.moveTo(pt.x, pt.y);
 		ctx.lineTo(nxtPt.x, nxtPt.y);
 		ctx.stroke();
@@ -127,8 +144,8 @@ let drawConnectedPoints = function() {
 
 	ctx.moveTo(doorPointsArray[0].x, doorPointsArray[0].y);
 	for(var i = 1; i < doorPointsArray.length; i++) {
-		let pt = cartesianPointToRealPoint(doorPointsArray[i-1].x, doorPointsArray[i-1].y, scale);
-		let nxtPt = cartesianPointToRealPoint(doorPointsArray[i].x, doorPointsArray[i].y, scale);
+		let pt = cartesianPointToRealPointNew(doorPointsArray[i-1].x, doorPointsArray[i-1].y, scaleX, scaleY);
+		let nxtPt = cartesianPointToRealPointNew(doorPointsArray[i].x, doorPointsArray[i].y,  scaleX, scaleY);
 		ctx.moveTo(pt.x, pt.y);
 		ctx.lineTo(nxtPt.x, nxtPt.y);
 		ctx.stroke();

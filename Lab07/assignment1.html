@@ -16,14 +16,17 @@
 	<div id="form">
 		x: <input id="coord-x" value="3"> transX: <input id="trans-x" value="2"><br>
 		y: <input id="coord-y" value="3"> transY: <input id="trans-y" value="3"><br>
-		<button onclick="drawPoint(
+		scale: <input id="scale" value="20.0"><br>
+		<button onclick="scale = parseFloat(document.getElementById('scale').value);
+		drawPoint(
 			parseFloat(document.getElementById('coord-x').value),
 			parseFloat(document.getElementById('coord-y').value),
 			'black'
 		)">
 			Calculate and Draw
 		</button>
-		<button onclick="translatePoint(
+		<button onclick="scale = parseFloat(document.getElementById('scale').value);
+		translatePoint(
 			parseFloat(document.getElementById('coord-x').value),
 			parseFloat(document.getElementById('coord-y').value),
 			parseFloat(document.getElementById('trans-x').value),
@@ -31,7 +34,8 @@
 		 	'green')">
 				Translate T[transX, transY]
 		</button>
-		<button onclick="translatePoint(
+		<button onclick="scale = parseFloat(document.getElementById('scale').value);
+		translatePoint(
 			parseFloat(document.getElementById('coord-x').value),
 			parseFloat(document.getElementById('coord-y').value),
 		 	parseFloat(document.getElementById('trans-y').value), 
