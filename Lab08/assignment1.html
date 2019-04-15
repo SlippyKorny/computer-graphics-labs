@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zad1</title>
+</head>
+<body onload="load();">
+
+<!--
+Zadanie 1. – 4pkt.
+Napisz program wyznaczający powłokę wypukłą dla n punktów.
+
+Przykładowe dane1: n=8, P1=(1,2), P2=(3,4), P3=(2,2), P4=(2,4), P5=(3,2), P6=(4,2), P7=(1,1), P8=(3,3).
+Przykładowe dane2: n=12, P1=(-10,20), P2=(-3,40), P3=(20,-20), P4=(24,-64), P5=(-33,25), P6=(24,123), P7=(-11,11), P8=(-33,43), P9(100, -45), P10(2,3), P11(20,30), P12(60,90).
+Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4), P5=(0.3, 0.2), P6=(0.4, 0.2), P7=(0.1, 0.1), P8=(0.3, 0.3).
+
+-->
+
+<br/>
+<button onclick="setI();">dane1</button>
+<button onclick="setII();">dane2</button>
+<button onclick="setIII();">dane3</button><br/>
+<canvas id="canvas" width="800" height="600" style="border: solid 1px black"></canvas>
+<script>
+    var context, points, min_point;
+
+    function load() {
+        var canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d');
+    }
+
+    function setI() {
+        points = [
+            {x: 1, y: 2},
+            {x: 3, y: 4},
+            {x: 2, y: 2},
+            {x: 2, y: 4},
+            {x: 3, y: 2},
+            {x: 4, y: 2},
+            {x: 1, y: 1},
+            {x: 3, y: 3}
+        ];
+        draw();
+    }
+
+    function setII() {
+        points = [
+            {x: -10, y: 20},
+            {x: -3, y: 40},
+            {x: 20, y: -20},
+            {x: 24, y: -64},
+            {x: -33, y: 25},
+            {x: 24, y: 123},
+            {x: -11, y: 11},
+            {x: -33, y: 43},
+            {x: 100, y: -45},
+            {x: 2, y: 3},
+            {x: 20, y: 30},
+            {x: 60, y: 90}
+        ];
+        draw();
+    }
+
+    function setIII() {
+        points = [
+            {x: 0.1, y: 0.2},
+            {x: 0.3, y: 0.4},
+            {x: 0.2, y: 0.2},
+            {x: 0.2, y: 0.4},
+            {x: 0.3, y: 0.2},
+            {x: 0.4, y: 0.2},
+            {x: 0.1, y: 0.1},
+            {x: 0.3, y: 0.3}
+        ];
+        draw();
+    }
+
+    function draw() {
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        //--------------------------------------------
+        context.strokeStyle = 'black';
+
+        //<okienkowanie>
+        var x_min = points[0].x;
+        var x_max = points[0].x;
+        var y_min = points[0].y;
+        var y_max = points[0].y;
+
+        for (var i = 1; i < points.length; i++) {
+            x_min = x_min > points[i].x ? points[i].x : x_min;
+            x_max = x_max < points[i].x ? points[i].x : x_max;
+            y_min = y_min > points[i].y ? points[i].y : y_min;
+            y_max = y_max < points[i].y ? points[i].y : y_max;
+        }
+
+        var sx = canvas.width / (x_max - x_min);
+        var sy = canvas.height / (y_max - y_min);
+
+        for (var i = 0; i < points.length; i++) {
+            points[i].x = (points[i].x - x_min) * sx;
+            points[i].y = (points[i].y - y_min) * sy;
+        }
+        //</okienkowanie>
+
+
+        //-----------------------------------------------------------
+        for (var i = 0, j = points.length - 1; i < points.length; j = i++) {
+            // for (var i = 0; i < points.length; i++) {
+            context.beginPath();
+            context.moveTo(points[j].x, points[j].y);
+            context.lineTo(points[i].x, points[i].y);
+            context.stroke();
+            // context.fillRect(points[i].x -2, points[i].y -2, 4, 4);
+        }
+
+        sort(points, 0, points.length, cmpByY);
+        min_point = {x: points[0].x, y: points[0].y};
+        // context.strokeRect(min_point.x * scale - 3, min_point.y * scale - 3, 6, 6);
+
+        sort(points, 1, points.length, cmpByCtg);
+
+
+        var k = 3;
+        var results = [
+            points[0],
+            points[1],
+            points[2]
+        ];
+
+
+        for (var j = 3; j < points.length; j++) {
+            if (k > 1 && determination(results[k - 2], results[k - 1], points[j]) <= 0) {
+                results.pop();
+                k--;
+                j--;
+            } else {
+                k++;
+                results.push(points[j]);
+            }
+        }
+
+        context.strokeStyle = '#FF00FF';
+
+        for (var i = 0, j = results.length - 1; i < results.length; j = i++) {
+            context.beginPath();
+            context.moveTo(results[j].x, results[j].y);
+            context.lineTo(results[i].x, results[i].y);
+            context.stroke();
+        }
+    }
+
+    function determination(a, b, c) {
+        return (b.x * c.y) + (a.x * b.y) + (c.x * a.y) - (b.x * a.y) - (c.x * b.y) - (a.x * c.y);
+    }
+
+    function cmpByY(i, j) {
+        return i.y <= j.y;
+    }
+
+    function cmpByCtg(i, j) {
+        var ctg_i = (i.x - min_point.x) / (i.y * 1.0 - min_point.y);
+        var ctg_j = (j.x - min_point.x) / (j.y * 1.0 - min_point.y);
+
+        return ctg_i >= ctg_j;
+    }
+
+    function sort(points, begin, end, cmp) {
+        var flaga;
+        do {
+            flaga = false;
+            for (var i = begin + 1; i < end; i++) {
+                if (cmp(points[i - 1], points[i])) {
+                    continue;
+                }
+                var tmp = points[i];
+                points[i] = points[i - 1];
+                points[i - 1] = tmp;
+                flaga = true;
+            }
+        } while (flaga);
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zad2</title>
+</head>
+<body>
+<br/>
+<!--
+Zadanie 2.
+Rozważamy pojedynczą sztachetę, rysunek poniżej. Można ją sparametryzować
+podając np. współrzędne lewego dolnego rogu (x,y), szerokość w i wysokość h oraz
+proporcje dla czuba (czub jest symetryczny). Oblicz pozostałe potrzebne współrzędne
+i narysuj płot. Następnie narysuj dla podanych parametrów (n – liczbą sztachet) go oraz
+poddaj płot przekształceniom: translacji, obrotowi względem dowolnego punktu i skalowaniu.
+ Do tych operacji wykorzystaj funkcję transform,
+-->
+<table>
+<tr>
+<td>
+    <canvas id="canvas" width="600" height="600" style="border: solid 1px black"></canvas>
+</td>
+<td>
+ilość = <input type="text" id="n" value="20"><br/><br/><br/>
+X = <input type="text" id="x" value="50"><br/>
+Y = <input type="text" id="y" value="150"><br/><br/><br/>
+szerokosc = <input type="text" id="w" value="40"><br/>
+wyskosc = <input type="text" id="h" value="300"><br/><br><br/>
+
+obrotX = <input type="text" id="a" value="2"><br/>
+obrotY = <input type="text" id="d" value="2"><br/><br/><br/>
+skalaX = <input type="text" id="b" value="3"><br/>
+skalaY = <input type="text" id="c" value="0.5"><br/><br/>
+translacjaX = <input type="text" id="e" value="100"><br/>
+translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
+<br>
+    <button onclick="normal();">Normalnie</button>
+<button onclick="trans();">Translacja</button>
+<button onclick="rotate();">Obrót</button>
+<button onclick="scale();">Skalowanie</button>
+</td>
+</tr>
+</table>
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+	var points;
+    var n, x0, y0, w, h;
+
+    function normal() {
+        n = parseInt(document.getElementById('n').value);
+        x0 = parseInt(document.getElementById('x').value);
+        y0 = parseInt(document.getElementById('y').value);
+        w = parseInt(document.getElementById('w').value);
+        h = parseInt(document.getElementById('h').value);
+
+        cls();
+        plot();
+		context.save();
+        draw();
+		context.restore();
+    }
+
+    function trans() {
+        n = parseInt(document.getElementById('n').value);
+        x0 = parseInt(document.getElementById('x').value);
+        y0 = parseInt(document.getElementById('y').value);
+        w = parseInt(document.getElementById('w').value);
+        h = parseInt(document.getElementById('h').value);
+        var tx = parseFloat(document.getElementById('e').value);
+        var ty = parseFloat(document.getElementById('f').value);
+
+        cls();
+        plot();
+        context.save();
+        context.transform(1,0,0,1,tx,ty);
+        draw();
+        context.restore();
+    }
+
+    function rotate() {
+        n = parseInt(document.getElementById('n').value);
+        x0 = parseInt(document.getElementById('x').value);
+        y0 = parseInt(document.getElementById('y').value);
+        w = parseInt(document.getElementById('w').value);
+        h = parseInt(document.getElementById('h').value);
+        var rx = parseFloat(document.getElementById('a').value);
+        var ry = parseFloat(document.getElementById('d').value);
+
+        cls();
+        plot();
+        context.save();
+        context.transform(1,rx,ry,1,0,0);
+        draw();
+        context.restore();
+    }
+
+    function scale() {
+        n = parseInt(document.getElementById('n').value);
+        x0 = parseInt(document.getElementById('x').value);
+        y0 = parseInt(document.getElementById('y').value);
+        w = parseInt(document.getElementById('w').value);
+        h = parseInt(document.getElementById('h').value);
+        var sx = parseFloat(document.getElementById('b').value);
+        var sy = parseFloat(document.getElementById('c').value);
+
+        cls();
+        plot();
+		context.save();
+        context.transform(sx,0,0,sy,0,0);
+        draw();
+		context.restore();
+    }
+
+    function cls(){
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.strokeStyle = 'black';
+    }
+
+	function okienkowanie()
+	{
+        var x_min = points[0][0].x;
+        var x_max = points[0][0].x;
+        var y_min = points[0][0].y;
+        var y_max = points[0][0].y;
+		
+		for (var c = 0; c < points.length; c++) {
+            for (var i = 0; i < points[c].length;i++) {
+				x_min = (x_min > points[c][i].x) ? points[c][i].x : x_min;
+				x_max = (x_max < points[c][i].x) ? points[c][i].x : x_max;
+				y_min = (y_min > points[c][i].y) ? points[c][i].y : y_min;
+				y_max = (y_max < points[c][i].y) ? points[c][i].y : y_max;
+			}
+        }
+
+        var sx = canvas.height / (x_max - x_min);
+        var sy = canvas.width / (y_max - y_min);
+		
+		for (var c = 0; c < points.length; c++) {
+            for (var i = 0; i < points[c].length;i++) {
+				points[c][i].x = (points[c][i].x - x_min) * sx;
+				points[c][i].y = (points[c][i].y - y_min) * sy;
+			}
+        }
+	}
+	
+    function draw() {
+		
+		//---------------------------------------------------------------------------
+
+        for (var c = 0; c < points.length; c++) {
+            for (var i = 0; i < points[c].length;i++) {
+                points[c][i].y = canvas.height - points[c][i].y;
+            }
+        }
+
+        //---------------------------------------------------------------------------
+		okienkowanie();
+        for (var c = 0; c < points.length; c++) {
+            for (var i = 1; i < points[c].length;i++) {
+                context.beginPath();
+                context.moveTo(points[c][i-1].x, points[c][i-1].y);
+                context.lineTo(points[c][i].x, points[c][i].y);
+                context.stroke();
+            }
+        }
+    }
+
+    function plot() {
+        points = [];
+        var x = x0;
+        for (var i = 0; i < n; i++) {
+            points.push(sztacheta(x, y0));
+            x += w + 10;
+        }
+    }
+
+    function sztacheta(x, y) {
+        return [
+            {x: x, y: y},
+            {x: x, y: y + (0.9 * h)},
+            {x: x + (w / 2), y: y + h},
+            {x: x + w, y: y + (0.9 * h)},
+            {x: x + w, y: y},
+            {x: x, y: y}
+        ];
+    }
+
+</script>
+</body>
+</html>
