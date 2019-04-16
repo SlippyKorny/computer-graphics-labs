@@ -7,13 +7,14 @@
 <body>
 <br/>
 <!--
-Zadanie 2.
-Rozważamy pojedynczą sztachetę, rysunek poniżej. Można ją sparametryzować
-podając np. współrzędne lewego dolnego rogu (x,y), szerokość w i wysokość h oraz
-proporcje dla czuba (czub jest symetryczny). Oblicz pozostałe potrzebne współrzędne
-i narysuj płot. Następnie narysuj dla podanych parametrów (n – liczbą sztachet) go oraz
-poddaj płot przekształceniom: translacji, obrotowi względem dowolnego punktu i skalowaniu.
- Do tych operacji wykorzystaj funkcję transform,
+    Zadanie 2.
+   
+    Rozważamy pojedynczą sztachetę, rysunek poniżej. Można ją sparametryzować
+    podając np. współrzędne lewego dolnego rogu (x,y), szerokość w i wysokość h oraz
+    proporcje dla czuba (czub jest symetryczny). Oblicz pozostałe potrzebne współrzędne
+    i narysuj płot. Następnie narysuj dla podanych parametrów (n – liczbą sztachet) go oraz
+    poddaj płot przekształceniom: translacji, obrotowi względem dowolnego punktu i skalowaniu.
+    Do tych operacji wykorzystaj funkcję transform,
 -->
 <table>
 <tr>
@@ -21,7 +22,7 @@ poddaj płot przekształceniom: translacji, obrotowi względem dowolnego punktu 
     <canvas id="canvas" width="600" height="600" style="border: solid 1px black"></canvas>
 </td>
 <td>
-ilość = <input type="text" id="n" value="20"><br/><br/><br/>
+ilość = <input type="text" id="n" value="5"><br/><br/><br/>
 X = <input type="text" id="x" value="50"><br/>
 Y = <input type="text" id="y" value="150"><br/><br/><br/>
 szerokosc = <input type="text" id="w" value="40"><br/>
@@ -43,12 +44,12 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
 </table>
 
 <script>
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-	var points;
-    var n, x0, y0, w, h;
+    let canvas = document.getElementById('canvas');
+    let context = canvas.getContext('2d');
+	let points;
+    let n, x0, y0, w, h;
 
-    function normal() {
+    let normal = function() {
         n = parseInt(document.getElementById('n').value);
         x0 = parseInt(document.getElementById('x').value);
         y0 = parseInt(document.getElementById('y').value);
@@ -62,7 +63,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
 		context.restore();
     }
 
-    function trans() {
+    let trans = function() {
         n = parseInt(document.getElementById('n').value);
         x0 = parseInt(document.getElementById('x').value);
         y0 = parseInt(document.getElementById('y').value);
@@ -79,7 +80,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
         context.restore();
     }
 
-    function rotate() {
+    let rotate = function() {
         n = parseInt(document.getElementById('n').value);
         x0 = parseInt(document.getElementById('x').value);
         y0 = parseInt(document.getElementById('y').value);
@@ -96,7 +97,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
         context.restore();
     }
 
-    function scale() {
+    let scale = function() {
         n = parseInt(document.getElementById('n').value);
         x0 = parseInt(document.getElementById('x').value);
         y0 = parseInt(document.getElementById('y').value);
@@ -113,14 +114,13 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
 		context.restore();
     }
 
-    function cls(){
+    let cls = function() {
         context.fillStyle = "white";
         context.fillRect(0, 0, canvas.width, canvas.height);
-        context.strokeStyle = 'black';
+        context.strokeStyle = '#00FFFF';
     }
 
-	function okienkowanie()
-	{
+	let okienkowanie = function() {
         var x_min = points[0][0].x;
         var x_max = points[0][0].x;
         var y_min = points[0][0].y;
@@ -146,7 +146,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
         }
 	}
 	
-    function draw() {
+    let draw = function() {
 		
 		//---------------------------------------------------------------------------
 
@@ -168,7 +168,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
         }
     }
 
-    function plot() {
+    let plot = function() {
         points = [];
         var x = x0;
         for (var i = 0; i < n; i++) {
@@ -177,7 +177,7 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
         }
     }
 
-    function sztacheta(x, y) {
+    let sztacheta = function(x, y) {
         return [
             {x: x, y: y},
             {x: x, y: y + (0.9 * h)},
@@ -187,7 +187,6 @@ translacjaY = <input type="text" id="f" value="100"><br/><br/><br/>
             {x: x, y: y}
         ];
     }
-
 </script>
 </body>
 </html>

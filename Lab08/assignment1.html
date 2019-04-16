@@ -2,34 +2,43 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Zad1</title>
+  <title>Assignment 1</title>
 </head>
 <body onload="load();">
 
 <!--
-Zadanie 1. – 4pkt.
-Napisz program wyznaczający powłokę wypukłą dla n punktów.
+    Zadanie 1. – 4pkt.
+    Napisz program wyznaczający powłokę wypukłą dla n punktów.
 
-Przykładowe dane1: n=8, P1=(1,2), P2=(3,4), P3=(2,2), P4=(2,4), P5=(3,2), P6=(4,2), P7=(1,1), P8=(3,3).
-Przykładowe dane2: n=12, P1=(-10,20), P2=(-3,40), P3=(20,-20), P4=(24,-64), P5=(-33,25), P6=(24,123), P7=(-11,11), P8=(-33,43), P9(100, -45), P10(2,3), P11(20,30), P12(60,90).
-Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4), P5=(0.3, 0.2), P6=(0.4, 0.2), P7=(0.1, 0.1), P8=(0.3, 0.3).
-
+    Przykładowe dane1: n=8, P1=(1,2), P2=(3,4), P3=(2,2), P4=(2,4), P5=(3,2), P6=(4,2), P7=(1,1), P8=(3,3).
+    Przykładowe dane2: n=12, P1=(-10,20), P2=(-3,40), P3=(20,-20), P4=(24,-64), P5=(-33,25), P6=(24,123), P7=(-11,11), P8=(-33,43), P9(100, -45), P10(2,3), P11(20,30), P12(60,90).
+    Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4), P5=(0.3, 0.2), P6=(0.4, 0.2), P7=(0.1, 0.1), P8=(0.3, 0.3).
 -->
 
 <br/>
-<button onclick="setI();">dane1</button>
-<button onclick="setII();">dane2</button>
-<button onclick="setIII();">dane3</button><br/>
+<button onclick="setI();">Set 1</button> = {(1, 2); (3, 4); (2, 2); (2, 4); (3, 2); (4, 2); (1, 1); (3, 3)}<br>
+<button onclick="setII();">Set 2</button> = {(-10,20); (-3,40); (20,-20); (24,-64); (-33,25); (24,123); (-11,11); (-33,43); (100,-45); (2,3); (20,30); (60,90)}<br>
+<button onclick="setIII();">Set 3</button> = {(0.1, 0.2); (0.3, 0.4); (0.2, 0.2); (0.2, 0.4); (0.3, 0.2); (0.4, 0.2); (0.1, 0.1); (0.3, 0.3)}<br/>
 <canvas id="canvas" width="800" height="600" style="border: solid 1px black"></canvas>
 <script>
     var context, points, min_point;
 
-    function load() {
+    let canvasFix = function(canvas) {
+        var dpr = window.devicePixelRatio || 1;
+        var rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        var ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        return ctx;
+    }
+
+    let load = function() {
         var canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
     }
 
-    function setI() {
+    let setI = function() {
         points = [
             {x: 1, y: 2},
             {x: 3, y: 4},
@@ -43,7 +52,7 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
         draw();
     }
 
-    function setII() {
+    let setII = function() {
         points = [
             {x: -10, y: 20},
             {x: -3, y: 40},
@@ -61,7 +70,7 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
         draw();
     }
 
-    function setIII() {
+    let setIII = function() {
         points = [
             {x: 0.1, y: 0.2},
             {x: 0.3, y: 0.4},
@@ -75,14 +84,14 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
         draw();
     }
 
-    function draw() {
+    let draw = function() {
         context.fillStyle = "white";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         //--------------------------------------------
         context.strokeStyle = 'black';
 
-        //<okienkowanie>
+        // <okienkowanie>
         var x_min = points[0].x;
         var x_max = points[0].x;
         var y_min = points[0].y;
@@ -102,7 +111,7 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
             points[i].x = (points[i].x - x_min) * sx;
             points[i].y = (points[i].y - y_min) * sy;
         }
-        //</okienkowanie>
+        // </okienkowanie>
 
 
         //-----------------------------------------------------------
@@ -141,7 +150,7 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
             }
         }
 
-        context.strokeStyle = '#FF00FF';
+        context.strokeStyle = '#00FFFF';
 
         for (var i = 0, j = results.length - 1; i < results.length; j = i++) {
             context.beginPath();
@@ -151,22 +160,22 @@ Przykładowe dane3: n=8, P1=(0.1,0.2), P2=(0.3,0.4), P3=(0.2, 0.2), P4=(0.2, 0.4
         }
     }
 
-    function determination(a, b, c) {
+    let determination = function(a, b, c) {
         return (b.x * c.y) + (a.x * b.y) + (c.x * a.y) - (b.x * a.y) - (c.x * b.y) - (a.x * c.y);
     }
 
-    function cmpByY(i, j) {
+    let cmpByY = function(i, j) {
         return i.y <= j.y;
     }
 
-    function cmpByCtg(i, j) {
+    let cmpByCtg = function(i, j) {
         var ctg_i = (i.x - min_point.x) / (i.y * 1.0 - min_point.y);
         var ctg_j = (j.x - min_point.x) / (j.y * 1.0 - min_point.y);
 
         return ctg_i >= ctg_j;
     }
 
-    function sort(points, begin, end, cmp) {
+    let sort = function(points, begin, end, cmp) {
         var flaga;
         do {
             flaga = false;
